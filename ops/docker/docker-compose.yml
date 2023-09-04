@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  localstack:
+    build:
+      context: ./localstack
+    environment:
+      - DEBUG=1
+      - SERVICES=dynamodb
+      - HOSTNAME_EXTERNAL=localstack
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    ports:
+      - '4566:4566'
+    volumes:
+      - ${CURRENT_PATH}/ops/docker/localstack/initaws:/etc/localstack/init/ready.d/
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  app:
+    build: 
+      context: ./app
+    volumes:
+      - ${CURRENT_PATH}:/app
+    ports:
+      - 8080:8080
+    depends_on:
+        - localstack
+

@@ -1,0 +1,27 @@
+{
+	"Users": [{
+			"PutRequest": {
+				"Item": {
+					"Username": {
+						"S": "MariCarmen"
+					},
+					"DateOfBirth": {
+						"S": "2016-02-15"
+					}
+				}
+			}
+		},
+		{
+			"PutRequest": {
+				"Item": {
+					"Username": {
+						"S": "Manolo"
+					},
+					"DateOfBirth": {
+						"S": "2000-02-15"
+					}
+				}
+            }
+		}
+	]
+}

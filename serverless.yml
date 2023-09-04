@@ -1,0 +1,60 @@
+service: go-birthday-api
+
+package:
+  individually: true  
+
+provider:
+  name: aws
+  lambdaHashingVersion: 20201221
+  region: us-east-1
+  
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - "Fn::Join":
+            - ""
+            - - "Fn::GetAtt": [ DynamoDB, Arn ]
+              - "*"
+  environment:
+    TABLE_NAME: ${self:custom.tableName}
+
+custom:
+  tableName: Users
+  
+functions:
+  getHello:
+    runtime: go1.x
+    handler: getHello
+    events:
+      - http:
+          path: hello/{username}
+          method: GET
+    package:
+      artifact: bin/getHello.zip
+  addUser:
+    runtime: go1.x
+    handler: addUser
+    events:
+      - http:
+          path: hello/{username}
+          method: PUT
+    package:
+      artifact: bin/addUser.zip    
+      
+resources:
+  Resources:
+    DynamoDB:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: Username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Username
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
