@@ -70,31 +70,31 @@ The primary approach for achieving a highly available API deployment leverages s
 
 **1) Amazon API Gateway:**
 
-- **High Availability:** Amazon API Gateway ensures continuous accessibility by serving as the entry point for our API. It offers built-in redundancy and automatic scaling to handle traffic surges effectively.
-- **Scalability:** API Gateway scales seamlessly to meet the demands of our application. It automatically manages the distribution of requests to the corresponding AWS Lambda functions for both PUT and GET endpoints.
-- **Individual Lambda Functions:** The use of separate Lambda functions for PUT and GET methods allows for fine-grained scaling. Each function can independently scale based on its specific workload, optimizing resource utilization.
+- **High Availability:** Ensures continuous accessibility by serving as the entry point for our API. It offers built-in redundancy and automatic scaling to handle traffic surges effectively.
+- **Serverless:** Offers a low-cost solution.
+- **CloudWatch:** Logs API calls, latencies, and error rates to Cloudwatch.
+**Throttling:** It helps you manage traffic with throttling so that backend operations can withstand traffic spikes and denial of service attacks.
+
 
 **2) AWS Lambda Functions:**
 
-- **Serverless Efficiency:** AWS Lambda offers serverless computing, eliminating the need for managing EC2 instances. It automatically scales based on incoming requests, ensuring optimal performance.
+- **Serverless Efficiency:** Offers serverless computing, eliminating the need for managing EC2 instances. It automatically scales based on incoming requests, ensuring optimal performance.
 - **Cost-Efficiency:** Lambda functions are cost-effective, as you only pay for the compute time used during request processing.
 - **Autoscaling:** The individual Lambda functions for PUT and GET methods allow independent autoscaling, ensuring responsiveness to varying workloads.
 
 **3) Amazon DynamoDB:**
 
-- **Efficient Data Storage:** DynamoDB efficiently stores and manages our data, providing low-latency access for our API.
-- **Scalability:** DynamoDB automatically scales to handle changes in data volume and request traffic.
+- **Efficient Data Storage:** DynamoDB efficiently stores and manages the data, providing low-latency access for the API.
+- **Scalability:** DynamoDB with on-demand capacity mode automatically scales to handle changes in data volume and request traffic. For this test, I used provisioned capacity mode with minimum capacity.
 
 **Alternative Approach: Amazon EC2 Instances**
 
-In an alternative approach, we can utilize Amazon Elastic Compute Cloud (EC2) instances to handle API requests. This setup offers flexibility and control over the underlying infrastructure but comes with additional management responsibilities.
+In an alternative approach, we can utilize Amazon Elastic Compute Cloud (EC2) instances to handle API requests. This setup offers flexibility and control over the underlying infrastructure but comes with additional management responsibilities. In this option, I'd use the http server solution instead of lambdas.
 
 ![EC2-solution](docs/EC2-solution-for-go-birthday-api.png)
 
 **Advantages of the Primary Approach:**
-
-- Seamless Scalability: AWS Lambda and API Gateway provide automatic scaling, ensuring our API can handle any level of traffic without manual intervention.
 - Cost-Effective Serverless Model: Lambda functions are cost-efficient, as we pay only for actual compute usage.
 - Low Administrative Overhead: Serverless technologies reduce operational overhead, allowing us to focus on development.
 
-Please note that while Amazon Route 53 is included in the diagrams for more accessible endpoint URLs, it has not been implemented in the current setup.
+Please note that while Amazon Route 53 is included in the diagrams for more accessible endpoint URLs, it has not been implemented in the solutions of this test.
